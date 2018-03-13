@@ -2,6 +2,23 @@ import { ajax } from 'discourse/lib/ajax';
 import RestModel from 'discourse/models/rest';
 import Model from 'discourse/models/model';
 
+// Whether to show the category badge in topic lists
+function displayCategoryInList(site, category) {
+  if (category) {
+    if (category.get('has_children')) {
+      return true;
+    }
+    let draftCategoryId = site.get('shared_drafts_category_id');
+    if (draftCategoryId && category.get('id') === draftCategoryId) {
+      return true;
+    }
+
+    return false;
+  }
+
+  return true;
+}
+
 const TopicList = RestModel.extend({
   canLoadMore: Em.computed.notEmpty("more_topics_url"),
 
@@ -160,7 +177,7 @@ TopicList.reopenClass({
 
   // hide the category when it has no children
   hideUniformCategory(list, category) {
-    list.set('hideCategory', category && !category.get("has_children"));
+    list.set('hideCategory', !displayCategoryInList(list.site, category));
   }
 
 });

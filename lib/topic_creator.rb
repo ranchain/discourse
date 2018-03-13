@@ -48,11 +48,29 @@ class TopicCreator
     save_topic(topic)
     create_warning(topic)
     watch_topic(topic)
+    create_shared_draft(topic)
 
     topic
   end
 
   private
+
+  def create_shared_draft(topic)
+    return unless @opts[:shared_draft]
+
+    # We need a category
+    if @opts[:category].blank? ||
+      (@opts[:category].to_i == SiteSetting.uncategorized_category_id.to_i)
+
+      rollback_with!(topic, :shared_draft_requires_category)
+    end
+
+    if @opts[:category].to_i == SiteSetting.shared_drafts_category.to_i
+      rollback_with!(topic, :shared_draft_destination)
+    end
+
+    SharedDraft.create(topic_id: topic.id, category_id: @opts[:category])
+  end
 
   def create_warning(topic)
     return unless @opts[:is_warning]
@@ -137,6 +155,10 @@ class TopicCreator
   def find_category
     # PM can't have a category
     @opts.delete(:category) if @opts[:archetype].present? && @opts[:archetype] == Archetype.private_message
+
+    if @opts[:shared_draft]
+      return Category.find(SiteSetting.shared_drafts_category)
+    end
 
     # Temporary fix to allow older clients to create topics.
     # When all clients are updated the category variable should

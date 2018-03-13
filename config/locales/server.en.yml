@@ -415,6 +415,8 @@ en:
               no_user_selected: "You must select a valid user."
               reply_by_email_disabled: "Reply by email has been disabled."
               target_user_not_found: "One of the users you are sending this message to could not be found."
+              shared_draft_requires_category: "You must specify a category for a Shared Draft"
+              shared_draft_destination: "Shared Drafts can't be made in that category"
             featured_link:
               invalid: "is invalid. URL should include http:// or https://."
               invalid_category: "can't be edited in this category."
@@ -1648,6 +1650,8 @@ en:
     company_short_name: "Company Name (short)"
     company_full_name: "Company Name (full)"
     company_domain: "Company Domain"
+
+    shared_drafts_category: "Enable the Shared Drafts feature by designating a category for topic drafts."
 
     errors:
       invalid_email: "Invalid email address."

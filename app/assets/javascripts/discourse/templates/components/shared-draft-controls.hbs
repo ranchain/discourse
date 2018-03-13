@@ -1,0 +1,16 @@
+<div class='shared-draft-notice'>
+  {{{i18n "shared_drafts.notice" category=topic.category.name}}}
+
+  <div class='publish-field'>
+    <label>{{i18n "shared_drafts.destination_category"}}</label>
+    {{category-chooser value=topic.destination_category_id}}
+  </div>
+
+  <div class='publish-field'>
+    {{d-button
+      action=(action "publish")
+      label="shared_drafts.publish"
+      class="btn-primary publish-shared-draft"
+      icon="clipboard"}}
+  </div>
+</div>
