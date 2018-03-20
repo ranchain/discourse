@@ -2,6 +2,9 @@ require 'rails_helper'
 require_dependency 'migration/safe_migrate'
 
 describe Migration::SafeMigrate do
+  after do
+    Migration::SafeMigrate.disable!
+  end
 
   def capture_stdout
     old_stdout = $stdout
